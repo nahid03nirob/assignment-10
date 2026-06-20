@@ -321,9 +321,30 @@ h3 { line-height: 1.2; }
   position: absolute;
   left: 10px;
   bottom: 10px;
+  right: 10px;
 }
 
-.gallery-card span {
+.gallery-card figcaption strong,
+.gallery-card figcaption p {
+  display: block;
+  margin: 0;
+}
+
+.gallery-card figcaption strong {
+  margin-top: 8px;
+  color: #fffdf1;
+  font-size: .92rem;
+  line-height: 1.2;
+}
+
+.gallery-card figcaption p {
+  margin-top: 4px;
+  color: rgba(255, 253, 241, 0.88);
+  font-size: .74rem;
+  line-height: 1.35;
+}
+
+.gallery-label {
   display: inline-flex;
   align-items: center;
   min-height: 24px;

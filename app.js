@@ -1,43 +1,43 @@
 const image = (path) => `Image/${path}`;
 
 const assetGallery = [
-  { src: image("BG/1.jpg"), alt: "Bright kitchen banner", label: "Banner" },
-  { src: image("BG/2.jpg"), alt: "Golden plated table", label: "Banner" },
-  { src: image("BG/3.jpg"), alt: "Fresh food spread", label: "Banner" },
-  { src: image("chef/1.jpg"), alt: "Chef portrait 1", label: "Chef" },
-  { src: image("chef/2.jpg"), alt: "Chef portrait 2", label: "Chef" },
-  { src: image("chef/3.jpg"), alt: "Chef portrait 3", label: "Chef" },
-  { src: image("chef/4.jpg"), alt: "Chef portrait 4", label: "Chef" },
-  { src: image("Recipe/1.jpg"), alt: "Recipe 1", label: "Recipe" },
-  { src: image("Recipe/2.jpg"), alt: "Recipe 2", label: "Recipe" },
-  { src: image("Recipe/3.jpg"), alt: "Recipe 3", label: "Recipe" },
-  { src: image("Recipe/4.jpg"), alt: "Recipe 4", label: "Recipe" },
-  { src: image("Recipe/5.jpg"), alt: "Recipe 5", label: "Recipe" },
-  { src: image("food/1.jpg"), alt: "Food 1", label: "Food" },
-  { src: image("food/2.jpg"), alt: "Food 2", label: "Food" },
-  { src: image("food/3.jpg"), alt: "Food 3", label: "Food" },
-  { src: image("food/4.jpg"), alt: "Food 4", label: "Food" },
-  { src: image("food/5.jpg"), alt: "Food 5", label: "Food" },
-  { src: image("food/6.jpg"), alt: "Food 6", label: "Food" },
-  { src: image("food/7.jpg"), alt: "Food 7", label: "Food" },
-  { src: image("food/8.jpg"), alt: "Food 8", label: "Food" },
-  { src: image("food/9.jpg"), alt: "Food 9", label: "Food" },
-  { src: image("food/10.jpg"), alt: "Food 10", label: "Food" },
-  { src: image("food/11.jpg"), alt: "Food 11", label: "Food" },
-  { src: image("food/12.jpg"), alt: "Food 12", label: "Food" },
-  { src: image("food/13.jpg"), alt: "Food 13", label: "Food" },
-  { src: image("food/14.jpg"), alt: "Food 14", label: "Food" },
-  { src: image("food/15.jpg"), alt: "Food 15", label: "Food" },
-  { src: image("food/16.jpg"), alt: "Food 16", label: "Food" },
-  { src: image("food/17.jpg"), alt: "Food 17", label: "Food" },
-  { src: image("food/18.jpg"), alt: "Food 18", label: "Food" },
-  { src: image("food/19.jpg"), alt: "Food 19", label: "Food" },
-  { src: image("food/20.jpg"), alt: "Food 20", label: "Food" },
-  { src: image("food/21.jpg"), alt: "Food 21", label: "Food" },
-  { src: image("food/22.jpg"), alt: "Food 22", label: "Food" },
-  { src: image("food/23.jpg"), alt: "Food 23", label: "Food" },
-  { src: image("food/24.jpg"), alt: "Food 24", label: "Food" },
-  { src: image("food/25.jpg"), alt: "Food 25", label: "Food" }
+  { src: image("BG/1.jpg"), alt: "Bright kitchen banner", label: "Banner", title: "Hero Banner 01", detail: "Warm plated food for the landing hero" },
+  { src: image("BG/2.jpg"), alt: "Golden plated table", label: "Banner", title: "Hero Banner 02", detail: "Premium dining scene with warm light" },
+  { src: image("BG/3.jpg"), alt: "Fresh food spread", label: "Banner", title: "Hero Banner 03", detail: "Colorful meal layout for the showcase" },
+  { src: image("chef/1.jpg"), alt: "Chef portrait 1", label: "Chef", title: "Chef Portrait 01", detail: "Profile image used for the admin account" },
+  { src: image("chef/2.jpg"), alt: "Chef portrait 2", label: "Chef", title: "Chef Portrait 02", detail: "Friendly creator profile image" },
+  { src: image("chef/3.jpg"), alt: "Chef portrait 3", label: "Chef", title: "Chef Portrait 03", detail: "Community chef avatar" },
+  { src: image("chef/4.jpg"), alt: "Chef portrait 4", label: "Chef", title: "Chef Portrait 04", detail: "Premium chef portrait image" },
+  { src: image("Recipe/1.jpg"), alt: "Recipe 1", label: "Recipe", title: "Recipe 01", detail: "Signature biryani card asset" },
+  { src: image("Recipe/2.jpg"), alt: "Recipe 2", label: "Recipe", title: "Recipe 02", detail: "Creamy pasta recipe card asset" },
+  { src: image("Recipe/3.jpg"), alt: "Recipe 3", label: "Recipe", title: "Recipe 03", detail: "Vegetarian taco recipe card asset" },
+  { src: image("Recipe/4.jpg"), alt: "Recipe 4", label: "Recipe", title: "Recipe 04", detail: "Dessert recipe card asset" },
+  { src: image("Recipe/5.jpg"), alt: "Recipe 5", label: "Recipe", title: "Recipe 05", detail: "Salmon recipe card asset" },
+  { src: image("food/1.jpg"), alt: "Food 1", label: "Food", title: "Food Shot 01", detail: "Ingredient and plated food close-up" },
+  { src: image("food/2.jpg"), alt: "Food 2", label: "Food", title: "Food Shot 02", detail: "Fresh meal presentation image" },
+  { src: image("food/3.jpg"), alt: "Food 3", label: "Food", title: "Food Shot 03", detail: "Kitchen prep photo" },
+  { src: image("food/4.jpg"), alt: "Food 4", label: "Food", title: "Food Shot 04", detail: "Side dish close-up" },
+  { src: image("food/5.jpg"), alt: "Food 5", label: "Food", title: "Food Shot 05", detail: "Dessert and garnish capture" },
+  { src: image("food/6.jpg"), alt: "Food 6", label: "Food", title: "Food Shot 06", detail: "Plated savory meal" },
+  { src: image("food/7.jpg"), alt: "Food 7", label: "Food", title: "Food Shot 07", detail: "Soup bowl asset" },
+  { src: image("food/8.jpg"), alt: "Food 8", label: "Food", title: "Food Shot 08", detail: "Snack and appetizer image" },
+  { src: image("food/9.jpg"), alt: "Food 9", label: "Food", title: "Food Shot 09", detail: "Golden dish close-up" },
+  { src: image("food/10.jpg"), alt: "Food 10", label: "Food", title: "Food Shot 10", detail: "Fresh prepared dinner" },
+  { src: image("food/11.jpg"), alt: "Food 11", label: "Food", title: "Food Shot 11", detail: "Recipe display image" },
+  { src: image("food/12.jpg"), alt: "Food 12", label: "Food", title: "Food Shot 12", detail: "Table setting asset" },
+  { src: image("food/13.jpg"), alt: "Food 13", label: "Food", title: "Food Shot 13", detail: "Warm plated dish" },
+  { src: image("food/14.jpg"), alt: "Food 14", label: "Food", title: "Food Shot 14", detail: "Dessert and garnish shot" },
+  { src: image("food/15.jpg"), alt: "Food 15", label: "Food", title: "Food Shot 15", detail: "Rice and curry close-up" },
+  { src: image("food/16.jpg"), alt: "Food 16", label: "Food", title: "Food Shot 16", detail: "Fresh meal preparation scene" },
+  { src: image("food/17.jpg"), alt: "Food 17", label: "Food", title: "Food Shot 17", detail: "Colorful dish presentation" },
+  { src: image("food/18.jpg"), alt: "Food 18", label: "Food", title: "Food Shot 18", detail: "Snack tray asset" },
+  { src: image("food/19.jpg"), alt: "Food 19", label: "Food", title: "Food Shot 19", detail: "Golden serving image" },
+  { src: image("food/20.jpg"), alt: "Food 20", label: "Food", title: "Food Shot 20", detail: "Kitchen hero crop" },
+  { src: image("food/21.jpg"), alt: "Food 21", label: "Food", title: "Food Shot 21", detail: "Light and fresh food image" },
+  { src: image("food/22.jpg"), alt: "Food 22", label: "Food", title: "Food Shot 22", detail: "Lunch plate asset" },
+  { src: image("food/23.jpg"), alt: "Food 23", label: "Food", title: "Food Shot 23", detail: "Dinner plate image" },
+  { src: image("food/24.jpg"), alt: "Food 24", label: "Food", title: "Food Shot 24", detail: "Texture-rich meal photo" },
+  { src: image("food/25.jpg"), alt: "Food 25", label: "Food", title: "Food Shot 25", detail: "Final gallery food image" }
 ];
 
 const seedRecipes = [
@@ -315,7 +315,11 @@ const renderHome = () => {
         ${assetGallery.map((asset) => `
           <figure class="gallery-card">
             <img src="${asset.src}" alt="${asset.alt}" loading="lazy">
-            <figcaption><span>${asset.label}</span></figcaption>
+            <figcaption>
+              <span class="gallery-label">${asset.label}</span>
+              <strong>${asset.title}</strong>
+              <p>${asset.detail}</p>
+            </figcaption>
           </figure>`).join("")}
       </div>
     </section>
