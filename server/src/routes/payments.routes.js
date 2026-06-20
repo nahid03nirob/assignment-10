@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Stripe from "stripe";
 import { env } from "../config/env.js";
-import { collections } from "../config/db.js";
+import { collections, toObjectId } from "../config/db.js";
 import { requireAuth } from "../middleware/auth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -28,7 +28,7 @@ router.post("/premium-checkout", requireAuth, asyncHandler(async (req, res) => {
 }));
 
 router.post("/recipe-checkout", requireAuth, asyncHandler(async (req, res) => {
-  const recipe = await collections().recipes.findOne({ _id: req.body.recipeId });
+  const recipe = await collections().recipes.findOne({ _id: toObjectId(req.body.recipeId) });
   if (!recipe) {
     const error = new Error("Recipe not found");
     error.status = 404;

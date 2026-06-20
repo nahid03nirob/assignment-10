@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { collections } from "../config/db.js";
+import { collections, toObjectId } from "../config/db.js";
 import { requireAdmin, requireAuth } from "../middleware/auth.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -28,7 +28,7 @@ router.get("/", requireAuth, requireAdmin, asyncHandler(async (_req, res) => {
 }));
 
 router.patch("/:id/dismiss", requireAuth, requireAdmin, asyncHandler(async (req, res) => {
-  await collections().reports.updateOne({ _id: req.params.id }, { $set: { status: "dismissed" } });
+  await collections().reports.updateOne({ _id: toObjectId(req.params.id) }, { $set: { status: "dismissed" } });
   res.json({ message: "Report dismissed" });
 }));
 
