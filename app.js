@@ -128,6 +128,7 @@ const state = {
 const app = document.querySelector("#app");
 const navLinks = document.querySelector("#navLinks");
 const toast = document.querySelector("#toast");
+const logoutButton = document.querySelector("#logoutButton");
 
 const save = () => {
   localStorage.setItem("recipehub-user", JSON.stringify(state.user));
@@ -143,6 +144,22 @@ const notify = (message) => {
   toast.textContent = message;
   toast.classList.add("show");
   window.setTimeout(() => toast.classList.remove("show"), 2400);
+};
+
+const logout = async () => {
+  try {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+  } catch (_error) {
+    // Local session state is still cleared below if the network call fails.
+  }
+  state.user = null;
+  sessionStorage.removeItem("intended-route");
+  save();
+  location.hash = "#/";
+  notify("Logged out successfully.");
 };
 
 const requireAuth = () => {
@@ -680,6 +697,9 @@ const syncNav = () => {
   document.querySelectorAll(".nav-links a").forEach((link) => link.classList.toggle("active", link.getAttribute("href") === (location.hash || "#/")));
   document.querySelectorAll("[data-auth-link]").forEach((item) => item.classList.toggle("hidden", !state.user));
   document.querySelectorAll("[data-guest-link]").forEach((item) => item.classList.toggle("hidden", !!state.user));
+  if (logoutButton) {
+    logoutButton.classList.toggle("hidden", !state.user);
+  }
 };
 
 document.querySelector("#navToggle").addEventListener("click", () => {
@@ -693,6 +713,8 @@ document.querySelector("#themeToggle").addEventListener("click", () => {
   localStorage.setItem("recipehub-theme", next);
   document.querySelector("#themeToggle").textContent = next === "dark" ? "Dark" : "Light";
 });
+
+logoutButton?.addEventListener("click", logout);
 
 document.documentElement.dataset.theme = localStorage.getItem("recipehub-theme") || "light";
 document.querySelector("#themeToggle").textContent = document.documentElement.dataset.theme === "dark" ? "Dark" : "Light";
