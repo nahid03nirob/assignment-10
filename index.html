@@ -1,11 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecipeHub — Recipe Sharing Platform</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RecipeHub is a recipe sharing platform for publishing, discovering, buying, and saving recipes.">
+  <title>RecipeHub | Recipe Sharing Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+  <div class="app-shell">
+    <header class="site-header">
+      <nav class="navbar" aria-label="Primary navigation">
+        <a class="brand" href="#/" aria-label="RecipeHub home">
+          <span class="brand-mark">R</span>
+          <span>RecipeHub</span>
+        </a>
+        <button class="nav-toggle icon-button" id="navToggle" aria-label="Open navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+          <a href="#/">Home</a>
+          <a href="#/recipes">Browse Recipes</a>
+          <a data-auth-link href="#/dashboard">Dashboard</a>
+          <a data-auth-link href="#/profile">Profile</a>
+          <a data-guest-link href="#/login">Login</a>
+          <a data-guest-link class="button button-small" href="#/register">Register</a>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">Light</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <footer class="footer">
+      <div>
+        <a class="brand footer-brand" href="#/">
+          <span class="brand-mark">R</span>
+          <span>RecipeHub</span>
+        </a>
+        <p>Share meals, keep family secrets organized, and discover your next favorite dish.</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="#/">Home</a>
+        <a href="#/recipes">Browse Recipes</a>
+        <a href="#/dashboard">Dashboard</a>
+        <a href="#/profile">Profile</a>
+      </div>
+      <div>
+        <h3>Social Links</h3>
+        <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Email: hello@recipehub.example</p>
+        <p>Phone: +880 1700 000000</p>
+        <p>Dhaka, Bangladesh</p>
+      </div>
+      <p class="copyright">Copyright 2026 RecipeHub. All rights reserved.</p>
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" type="module"></script>
 </body>
 </html>
