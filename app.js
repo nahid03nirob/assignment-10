@@ -1,5 +1,45 @@
 const image = (path) => `Image/${path}`;
 
+const assetGallery = [
+  { src: image("BG/1.jpg"), alt: "Bright kitchen banner", label: "Banner" },
+  { src: image("BG/2.jpg"), alt: "Golden plated table", label: "Banner" },
+  { src: image("BG/3.jpg"), alt: "Fresh food spread", label: "Banner" },
+  { src: image("chef/1.jpg"), alt: "Chef portrait 1", label: "Chef" },
+  { src: image("chef/2.jpg"), alt: "Chef portrait 2", label: "Chef" },
+  { src: image("chef/3.jpg"), alt: "Chef portrait 3", label: "Chef" },
+  { src: image("chef/4.jpg"), alt: "Chef portrait 4", label: "Chef" },
+  { src: image("Recipe/1.jpg"), alt: "Recipe 1", label: "Recipe" },
+  { src: image("Recipe/2.jpg"), alt: "Recipe 2", label: "Recipe" },
+  { src: image("Recipe/3.jpg"), alt: "Recipe 3", label: "Recipe" },
+  { src: image("Recipe/4.jpg"), alt: "Recipe 4", label: "Recipe" },
+  { src: image("Recipe/5.jpg"), alt: "Recipe 5", label: "Recipe" },
+  { src: image("food/1.jpg"), alt: "Food 1", label: "Food" },
+  { src: image("food/2.jpg"), alt: "Food 2", label: "Food" },
+  { src: image("food/3.jpg"), alt: "Food 3", label: "Food" },
+  { src: image("food/4.jpg"), alt: "Food 4", label: "Food" },
+  { src: image("food/5.jpg"), alt: "Food 5", label: "Food" },
+  { src: image("food/6.jpg"), alt: "Food 6", label: "Food" },
+  { src: image("food/7.jpg"), alt: "Food 7", label: "Food" },
+  { src: image("food/8.jpg"), alt: "Food 8", label: "Food" },
+  { src: image("food/9.jpg"), alt: "Food 9", label: "Food" },
+  { src: image("food/10.jpg"), alt: "Food 10", label: "Food" },
+  { src: image("food/11.jpg"), alt: "Food 11", label: "Food" },
+  { src: image("food/12.jpg"), alt: "Food 12", label: "Food" },
+  { src: image("food/13.jpg"), alt: "Food 13", label: "Food" },
+  { src: image("food/14.jpg"), alt: "Food 14", label: "Food" },
+  { src: image("food/15.jpg"), alt: "Food 15", label: "Food" },
+  { src: image("food/16.jpg"), alt: "Food 16", label: "Food" },
+  { src: image("food/17.jpg"), alt: "Food 17", label: "Food" },
+  { src: image("food/18.jpg"), alt: "Food 18", label: "Food" },
+  { src: image("food/19.jpg"), alt: "Food 19", label: "Food" },
+  { src: image("food/20.jpg"), alt: "Food 20", label: "Food" },
+  { src: image("food/21.jpg"), alt: "Food 21", label: "Food" },
+  { src: image("food/22.jpg"), alt: "Food 22", label: "Food" },
+  { src: image("food/23.jpg"), alt: "Food 23", label: "Food" },
+  { src: image("food/24.jpg"), alt: "Food 24", label: "Food" },
+  { src: image("food/25.jpg"), alt: "Food 25", label: "Food" }
+];
+
 const seedRecipes = [
   {
     id: "r1",
@@ -263,6 +303,22 @@ const renderHome = () => {
         <a class="button" href="#/premium">Become Premium</a>
       </div>
     </section>
+    <section class="section gallery-section">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">All assets</p>
+          <h2>Kitchen Gallery</h2>
+        </div>
+        <p class="lead">Every image in the folder is used here to keep the site visually complete and the asset set live.</p>
+      </div>
+      <div class="gallery-grid">
+        ${assetGallery.map((asset) => `
+          <figure class="gallery-card">
+            <img src="${asset.src}" alt="${asset.alt}" loading="lazy">
+            <figcaption><span>${asset.label}</span></figcaption>
+          </figure>`).join("")}
+      </div>
+    </section>
   `;
 };
 
@@ -413,6 +469,7 @@ const renderDashboard = (tab = "overview") => {
     <section class="dashboard-grid grid">
       <aside class="card dashboard-nav">
         ${tabs.map(([key, label]) => `<button class="button-ghost ${tab === key ? "active" : ""}" data-tab="${key}">${label}</button>`).join("")}
+        <button class="button-danger button-small" id="dashboardLogout" type="button">Logout</button>
       </aside>
       <div id="dashboardPanel"></div>
     </section>
@@ -691,6 +748,8 @@ const bindPageEvents = () => {
     save();
     route();
   }));
+
+  document.querySelector("#dashboardLogout")?.addEventListener("click", logout);
 };
 
 const syncNav = () => {
