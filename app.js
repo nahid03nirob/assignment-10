@@ -662,6 +662,8 @@ const route = () => {
     else renderNotFound();
     bindPageEvents();
     syncNav();
+    navLinks.classList.remove("open");
+    document.querySelector("#navToggle").setAttribute("aria-expanded", "false");
     app.focus();
   }, 180);
 };
