@@ -857,4 +857,9 @@ document.documentElement.dataset.theme = localStorage.getItem("recipehub-theme")
 document.querySelector("#themeToggle").textContent = document.documentElement.dataset.theme === "dark" ? "Dark" : "Light";
 document.querySelector("#themeToggle").setAttribute("aria-pressed", String(document.documentElement.dataset.theme === "dark"));
 window.addEventListener("hashchange", route);
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    document.querySelector("#reportModal")?.classList.add("hidden");
+  }
+});
 route();
