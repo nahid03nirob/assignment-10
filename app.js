@@ -228,7 +228,7 @@ const card = (recipe) => `
       <p>${recipe.instructions.slice(0, 88)}...</p>
       <div class="action-row">
         <a class="button button-small" href="#/recipes/${recipe.id}">View Details</a>
-        <button class="button-ghost button-small" data-favorite="${recipe.id}">Favorite</button>
+        <button class="button-ghost button-small" data-favorite="${recipe.id}">${state.user && state.favorites.some((item) => item.recipeId === recipe.id && item.userEmail === state.user.email) ? "Saved" : "Favorite"}</button>
       </div>
     </div>
   </article>
