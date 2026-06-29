@@ -841,11 +841,13 @@ document.querySelector("#themeToggle").addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   localStorage.setItem("recipehub-theme", next);
   document.querySelector("#themeToggle").textContent = next === "dark" ? "Dark" : "Light";
+  document.querySelector("#themeToggle").setAttribute("aria-pressed", String(next === "dark"));
 });
 
 logoutButton?.addEventListener("click", logout);
 
 document.documentElement.dataset.theme = localStorage.getItem("recipehub-theme") || "light";
 document.querySelector("#themeToggle").textContent = document.documentElement.dataset.theme === "dark" ? "Dark" : "Light";
+document.querySelector("#themeToggle").setAttribute("aria-pressed", String(document.documentElement.dataset.theme === "dark"));
 window.addEventListener("hashchange", route);
 route();
