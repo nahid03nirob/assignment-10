@@ -213,6 +213,7 @@ const requireAuth = () => {
 
 const isAdmin = () => state.user?.role === "admin";
 const currentUserRecipes = () => state.recipes.filter((recipe) => recipe.authorEmail === state.user?.email);
+const recipeRating = (recipe) => (4 + Math.min(Number(recipe.likesCount || 0), 250) / 250).toFixed(1);
 
 const card = (recipe) => `
   <article class="card recipe-card">
@@ -224,6 +225,7 @@ const card = (recipe) => `
         <span>${recipe.cuisineType}</span>
         <span>${recipe.preparationTime} min</span>
         <span>${recipe.difficultyLevel}</span>
+        <span>${recipeRating(recipe)} rating</span>
       </div>
       <p>${recipe.instructions.slice(0, 88)}...</p>
       <div class="action-row">
@@ -399,6 +401,7 @@ const renderDetails = (id) => {
           <p><strong>Difficulty:</strong> ${recipe.difficultyLevel}</p>
           <p><strong>Preparation:</strong> ${recipe.preparationTime} minutes</p>
           <p><strong>Likes:</strong> <span id="likeCount">${recipe.likesCount}</span></p>
+          <p><strong>Rating:</strong> ${recipeRating(recipe)} / 5</p>
           <p><strong>Price:</strong> $${recipe.price.toFixed(2)}</p>
           <div class="grid">
             <button class="button" data-purchase="${recipe.id}">Purchase Recipe</button>
