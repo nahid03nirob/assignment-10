@@ -32,4 +32,19 @@ router.patch("/:id/dismiss", requireAuth, requireAdmin, asyncHandler(async (req,
   res.json({ message: "Report dismissed" });
 }));
 
+router.delete("/:id/recipe", requireAuth, requireAdmin, asyncHandler(async (req, res) => {
+  const report = await collections().reports.findOne({ _id: toObjectId(req.params.id) });
+  if (!report) {
+    const error = new Error("Report not found");
+    error.status = 404;
+    throw error;
+  }
+  await Promise.all([
+    collections().recipes.deleteOne({ _id: toObjectId(report.recipeId) }),
+    collections().favorites.deleteMany({ recipeId: report.recipeId }),
+    collections().reports.updateMany({ recipeId: report.recipeId }, { $set: { status: "removed" } })
+  ]);
+  res.json({ message: "Reported recipe removed" });
+}));
+
 export default router;

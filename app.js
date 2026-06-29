@@ -159,9 +159,9 @@ const state = {
   reports: JSON.parse(localStorage.getItem("recipehub-reports") || "[]"),
   payments: JSON.parse(localStorage.getItem("recipehub-payments") || "[]"),
   users: JSON.parse(localStorage.getItem("recipehub-users") || "null") || [
-    { id: "u-admin", name: "Admin", email: "admin@recipehub.com", image: image("chef/1.jpg"), role: "admin", isBlocked: false, isPremium: true },
-    { id: "u1", name: "Ayesha Rahman", email: "ayesha@example.com", image: image("chef/2.jpg"), role: "user", isBlocked: false, isPremium: false },
-    { id: "u2", name: "Marco Silva", email: "marco@example.com", image: image("chef/3.jpg"), role: "user", isBlocked: false, isPremium: true }
+    { id: "u-admin", name: "Admin", email: "admin@recipehub.com", password: "Admin123", image: image("chef/1.jpg"), role: "admin", isBlocked: false, isPremium: true },
+    { id: "u1", name: "Ayesha Rahman", email: "ayesha@example.com", password: "User123", image: image("chef/2.jpg"), role: "user", isBlocked: false, isPremium: false },
+    { id: "u2", name: "Marco Silva", email: "marco@example.com", password: "User123", image: image("chef/3.jpg"), role: "user", isBlocked: false, isPremium: true }
   ]
 };
 
@@ -464,7 +464,7 @@ const renderRegister = () => {
   `;
 };
 
-const renderDashboard = (tab = "overview") => {
+const renderDashboard = (tab = "overview", resourceId = "") => {
   if (!requireAuth()) return;
   const tabs = isAdmin()
     ? [["overview", "Overview"], ["users", "Manage Users"], ["recipes", "Manage Recipes"], ["reports", "Reports"], ["transactions", "Transactions"]]
@@ -479,12 +479,12 @@ const renderDashboard = (tab = "overview") => {
     </section>
   `;
   document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => location.hash = `#/dashboard/${button.dataset.tab}`));
-  renderDashboardPanel(tab);
+  renderDashboardPanel(tab, resourceId);
 };
 
-const renderDashboardPanel = (tab) => {
+const renderDashboardPanel = (tab, resourceId = "") => {
   const panel = document.querySelector("#dashboardPanel");
-  if (isAdmin()) return renderAdminPanel(panel, tab);
+  if (isAdmin()) return renderAdminPanel(panel, tab, resourceId);
   const own = currentUserRecipes();
   const favs = state.favorites.filter((item) => item.userEmail === state.user.email);
   const purchased = state.purchases.filter((item) => item.userEmail === state.user.email);
@@ -506,8 +506,38 @@ const renderDashboardPanel = (tab) => {
         <p class="eyebrow">Add recipe</p><h1>Publish Recipe</h1>
         ${limited ? `<p class="lead">Free users can add 2 recipes. Become premium to unlock unlimited recipes.</p><a class="button" href="#/premium">Become Premium</a>` : recipeFormFields()}
       </form></div>`;
+  } else if (tab === "edit") {
+    const recipe = own.find((item) => item.id === resourceId);
+    if (!recipe) {
+      panel.innerHTML = `<div class="card card-body"><h1>Recipe not found</h1><p class="lead">You can only edit recipes created by your account.</p></div>`;
+      return;
+    }
+    panel.innerHTML = `
+      <div class="card"><form class="card-body" id="recipeForm">
+        <p class="eyebrow">Update recipe</p><h1>Edit ${recipe.recipeName}</h1>
+        ${recipeFormFields(recipe)}
+      </form></div>`;
   } else if (tab === "my-recipes") {
-    panel.innerHTML = `<h1>My Recipes</h1><div class="grid grid-3">${own.map(card).join("") || `<p>No recipes added yet.</p>`}</div>`;
+    panel.innerHTML = `
+      <h1>My Recipes</h1>
+      <div class="grid grid-3">${own.map((recipe) => `
+        <article class="card recipe-card">
+          <img src="${recipe.recipeImage}" alt="${recipe.recipeName}">
+          <div class="card-body">
+            <span class="pill">${recipe.category}</span>
+            <h3>${recipe.recipeName}</h3>
+            <div class="meta">
+              <span>${recipe.cuisineType}</span>
+              <span>${recipe.preparationTime} min</span>
+              <span>${recipe.likesCount} likes</span>
+            </div>
+            <div class="action-row">
+              <a class="button button-small" href="#/recipes/${recipe.id}">View Details</a>
+              <button class="button-ghost button-small" data-edit="${recipe.id}">Update</button>
+              <button class="button-danger button-small" data-delete="${recipe.id}">Delete</button>
+            </div>
+          </div>
+        </article>`).join("") || `<p>No recipes added yet.</p>`}</div>`;
   } else if (tab === "favorites") {
     panel.innerHTML = `<h1>My Favorites</h1><div class="grid grid-3">${favs.map((fav) => state.recipes.find((r) => r.id === fav.recipeId)).filter(Boolean).map((recipe) => card(recipe).replace("Favorite", "Remove")).join("") || `<p>No favorites yet.</p>`}</div>`;
   } else if (tab === "purchased") {
@@ -517,18 +547,21 @@ const renderDashboardPanel = (tab) => {
   }
 };
 
+const selected = (actual, expected) => actual === expected ? "selected" : "";
+
 const recipeFormFields = (recipe = {}) => `
+  <input type="hidden" name="recipeId" value="${recipe.id || ""}">
   <div class="grid grid-3">
     <div class="field"><label>Recipe Name</label><input name="recipeName" value="${recipe.recipeName || ""}" required></div>
     <div class="field"><label>Recipe Image URL</label><input name="recipeImage" value="${recipe.recipeImage || image("food/11.jpg")}" required></div>
-    <div class="field"><label>Category</label><select name="category"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Dessert</option><option>Snacks</option></select></div>
+    <div class="field"><label>Category</label><select name="category"><option ${selected(recipe.category, "Breakfast")}>Breakfast</option><option ${selected(recipe.category, "Lunch")}>Lunch</option><option ${selected(recipe.category, "Dinner")}>Dinner</option><option ${selected(recipe.category, "Dessert")}>Dessert</option><option ${selected(recipe.category, "Snacks")}>Snacks</option></select></div>
     <div class="field"><label>Cuisine Type</label><input name="cuisineType" value="${recipe.cuisineType || ""}" required></div>
-    <div class="field"><label>Difficulty Level</label><select name="difficultyLevel"><option>Easy</option><option>Medium</option><option>Hard</option></select></div>
+    <div class="field"><label>Difficulty Level</label><select name="difficultyLevel"><option ${selected(recipe.difficultyLevel, "Easy")}>Easy</option><option ${selected(recipe.difficultyLevel, "Medium")}>Medium</option><option ${selected(recipe.difficultyLevel, "Hard")}>Hard</option></select></div>
     <div class="field"><label>Preparation Time</label><input name="preparationTime" type="number" min="1" value="${recipe.preparationTime || 30}" required></div>
   </div>
   <div class="field"><label>Ingredients</label><textarea name="ingredients" required>${recipe.ingredients?.join(", ") || ""}</textarea></div>
   <div class="field"><label>Instructions</label><textarea name="instructions" required>${recipe.instructions || ""}</textarea></div>
-  <button class="button" type="submit">Save Recipe</button>`;
+  <button class="button" type="submit">${recipe.id ? "Update Recipe" : "Save Recipe"}</button>`;
 
 const profileForm = () => `
   <div class="card"><form class="card-body" id="profileForm">
@@ -538,7 +571,7 @@ const profileForm = () => `
     <button class="button" style="margin-top:18px" type="submit">Update Profile</button>
   </form></div>`;
 
-const renderAdminPanel = (panel, tab) => {
+const renderAdminPanel = (panel, tab, resourceId = "") => {
   if (tab === "overview") {
     panel.innerHTML = `
       <h1>Admin Overview</h1>
@@ -551,7 +584,18 @@ const renderAdminPanel = (panel, tab) => {
   } else if (tab === "users") {
     panel.innerHTML = table(["User", "Role", "Premium", "Status", "Action"], state.users.map((u) => [u.email, u.role, u.isPremium ? "Yes" : "No", u.isBlocked ? "Blocked" : "Active", `<button class="button-small button-ghost" data-block="${u.id}">${u.isBlocked ? "Unblock" : "Block"}</button>`]));
   } else if (tab === "recipes") {
-    panel.innerHTML = table(["Recipe", "Author", "Featured", "Actions"], state.recipes.map((r) => [r.recipeName, r.authorEmail, r.isFeatured ? "Yes" : "No", `<button class="button-small button-ghost" data-feature="${r.id}">Feature</button> <button class="button-small button-danger" data-delete="${r.id}">Delete</button>`]));
+    panel.innerHTML = table(["Recipe", "Author", "Featured", "Actions"], state.recipes.map((r) => [r.recipeName, r.authorEmail, r.isFeatured ? "Yes" : "No", `<button class="button-small button-ghost" data-admin-edit="${r.id}">Edit</button> <button class="button-small button-ghost" data-feature="${r.id}">${r.isFeatured ? "Unfeature" : "Feature"}</button> <button class="button-small button-danger" data-delete="${r.id}">Delete</button>`]));
+  } else if (tab === "edit") {
+    const recipe = state.recipes.find((item) => item.id === resourceId);
+    if (!recipe) {
+      panel.innerHTML = `<div class="card card-body"><h1>Recipe not found</h1><p class="lead">The selected recipe is no longer available.</p></div>`;
+      return;
+    }
+    panel.innerHTML = `
+      <div class="card"><form class="card-body" id="recipeForm">
+        <p class="eyebrow">Admin recipe moderation</p><h1>Edit ${recipe.recipeName}</h1>
+        ${recipeFormFields(recipe)}
+      </form></div>`;
   } else if (tab === "reports") {
     panel.innerHTML = table(["Recipe", "Reporter", "Reason", "Status", "Actions"], state.reports.map((r) => [r.recipeId, r.reporterEmail, r.reason, r.status, `<button class="button-small button-danger" data-delete="${r.recipeId}">Remove Recipe</button> <button class="button-small button-ghost" data-dismiss="${r.id}">Dismiss</button>`]));
   } else if (tab === "transactions") {
@@ -611,7 +655,7 @@ const route = () => {
     else if (segments[0] === "recipes") renderBrowse();
     else if (segments[0] === "login") renderLogin();
     else if (segments[0] === "register") renderRegister();
-    else if (segments[0] === "dashboard") renderDashboard(segments[1] || "overview");
+    else if (segments[0] === "dashboard") renderDashboard(segments[1] || "overview", segments[2] || "");
     else if (segments[0] === "profile") renderDashboard("profile");
     else if (segments[0] === "premium") renderPremium();
     else if (segments[0] === "payment-success") renderPaymentSuccess();
@@ -666,8 +710,9 @@ const bindPageEvents = () => {
   document.querySelector("#loginForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const email = event.target.email.value;
-    let user = state.users.find((item) => item.email === email);
-    if (!user) user = { id: crypto.randomUUID(), name: email.split("@")[0], email, image: image("chef/1.jpg"), role: "user", isBlocked: false, isPremium: false };
+    const password = event.target.password.value;
+    const user = state.users.find((item) => item.email === email);
+    if (!user || (user.password && user.password !== password)) return notify("Invalid email or password.");
     if (user.isBlocked) return notify("This account is blocked.");
     state.user = user;
     save();
@@ -682,7 +727,9 @@ const bindPageEvents = () => {
     event.preventDefault();
     const password = event.target.password.value;
     if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) return notify("Password needs uppercase and lowercase letters.");
-    const user = { id: crypto.randomUUID(), name: event.target.name.value, email: event.target.email.value, image: event.target.image.value, role: "user", isBlocked: false, isPremium: false };
+    const email = event.target.email.value;
+    if (state.users.some((item) => item.email === email)) return notify("Email is already registered.");
+    const user = { id: crypto.randomUUID(), name: event.target.name.value, email, password, image: event.target.image.value, role: "user", isBlocked: false, isPremium: false };
     state.users.push(user);
     state.user = user;
     save();
@@ -691,8 +738,8 @@ const bindPageEvents = () => {
   document.querySelector("#recipeForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    state.recipes.unshift({
-      id: crypto.randomUUID(),
+    const recipeId = data.get("recipeId");
+    const payload = {
       recipeName: data.get("recipeName"),
       recipeImage: data.get("recipeImage"),
       category: data.get("category"),
@@ -700,7 +747,18 @@ const bindPageEvents = () => {
       difficultyLevel: data.get("difficultyLevel"),
       preparationTime: Number(data.get("preparationTime")),
       ingredients: data.get("ingredients").split(",").map((item) => item.trim()).filter(Boolean),
-      instructions: data.get("instructions"),
+      instructions: data.get("instructions")
+    };
+    if (recipeId) {
+      state.recipes = state.recipes.map((recipe) => recipe.id === recipeId ? { ...recipe, ...payload } : recipe);
+      save();
+      notify("Recipe updated.");
+      location.hash = isAdmin() ? "#/dashboard/recipes" : "#/dashboard/my-recipes";
+      return;
+    }
+    state.recipes.unshift({
+      id: crypto.randomUUID(),
+      ...payload,
       authorId: state.user.id,
       authorName: state.user.name,
       authorEmail: state.user.email,
@@ -735,6 +793,12 @@ const bindPageEvents = () => {
     recipe.isFeatured = !recipe.isFeatured;
     save();
     route();
+  }));
+  document.querySelectorAll("[data-edit]").forEach((button) => button.addEventListener("click", () => {
+    location.hash = `#/dashboard/edit/${button.dataset.edit}`;
+  }));
+  document.querySelectorAll("[data-admin-edit]").forEach((button) => button.addEventListener("click", () => {
+    location.hash = `#/dashboard/edit/${button.dataset.adminEdit}`;
   }));
   document.querySelectorAll("[data-delete]").forEach((button) => button.addEventListener("click", () => {
     state.recipes = state.recipes.filter((item) => item.id !== button.dataset.delete);

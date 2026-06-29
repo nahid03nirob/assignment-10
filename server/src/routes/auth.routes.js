@@ -18,6 +18,12 @@ const registerSchema = z.object({
 
 router.post("/register", asyncHandler(async (req, res) => {
   const data = registerSchema.parse(req.body);
+  const existing = await collections().users.findOne({ email: data.email });
+  if (existing) {
+    const error = new Error("Email is already registered");
+    error.status = 409;
+    throw error;
+  }
   const passwordHash = await bcrypt.hash(data.password, 12);
   const user = {
     name: data.name,
