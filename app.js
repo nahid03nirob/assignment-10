@@ -721,12 +721,16 @@ const bindPageEvents = () => {
     if (user.isBlocked) return notify("This account is blocked.");
     state.user = user;
     save();
-    location.hash = sessionStorage.getItem("intended-route") || "#/";
+    const redirectTo = sessionStorage.getItem("intended-route") || "#/";
+    sessionStorage.removeItem("intended-route");
+    location.hash = redirectTo;
   });
   document.querySelector("#googleLogin")?.addEventListener("click", () => {
     state.user = state.users[1];
     save();
-    location.hash = sessionStorage.getItem("intended-route") || "#/";
+    const redirectTo = sessionStorage.getItem("intended-route") || "#/";
+    sessionStorage.removeItem("intended-route");
+    location.hash = redirectTo;
   });
   document.querySelector("#registerForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
