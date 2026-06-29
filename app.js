@@ -493,6 +493,7 @@ const renderDashboardPanel = (tab, resourceId = "") => {
   const favs = state.favorites.filter((item) => item.userEmail === state.user.email);
   const purchased = state.purchases.filter((item) => item.userEmail === state.user.email);
   const likes = own.reduce((sum, recipe) => sum + recipe.likesCount, 0);
+  const topRecipe = own.reduce((best, recipe) => recipe.likesCount > (best?.likesCount || 0) ? recipe : best, null);
 
   if (tab === "overview") {
     panel.innerHTML = `
@@ -502,7 +503,8 @@ const renderDashboardPanel = (tab, resourceId = "") => {
         <div class="card stat"><span>Total Favorites</span><strong>${favs.length}</strong></div>
         <div class="card stat"><span>Likes Received</span><strong>${likes}</strong></div>
         <div class="card stat"><span>Plan</span><strong>${state.user.isPremium ? "Premium" : "Free"}</strong></div>
-      </div>`;
+      </div>
+      ${topRecipe ? `<div class="card card-body" style="margin-top:18px"><span class="pill">Analytics</span><h3>Top Recipe</h3><p class="lead">${topRecipe.recipeName} is leading your collection with ${topRecipe.likesCount} likes.</p></div>` : ""}`;
   } else if (tab === "add") {
     const limited = !state.user.isPremium && own.length >= 2;
     panel.innerHTML = `
