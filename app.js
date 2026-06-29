@@ -684,6 +684,8 @@ const bindPageEvents = () => {
     const exists = state.favorites.some((item) => item.recipeId === recipeId && item.userEmail === state.user.email);
     state.favorites = exists ? state.favorites.filter((item) => !(item.recipeId === recipeId && item.userEmail === state.user.email)) : [...state.favorites, { id: crypto.randomUUID(), recipeId, userEmail: state.user.email, userId: state.user.id, addedAt: new Date().toISOString() }];
     save();
+    const defaultLabel = button.closest(".sticky-panel") ? "Save Favorite" : "Favorite";
+    button.textContent = exists ? defaultLabel : "Saved";
     notify(exists ? "Favorite removed." : "Recipe saved to favorites.");
     if (location.hash.includes("favorites")) route();
   }));
