@@ -376,6 +376,7 @@ const renderBrowse = () => {
 const renderDetails = (id) => {
   const recipe = state.recipes.find((item) => item.id === id);
   if (!recipe) return renderNotFound();
+  const isSaved = state.user && state.favorites.some((item) => item.recipeId === recipe.id && item.userEmail === state.user.email);
   app.innerHTML = `
     <section class="details-layout">
       <article class="details-hero">
@@ -402,7 +403,7 @@ const renderDetails = (id) => {
           <div class="grid">
             <button class="button" data-purchase="${recipe.id}">Purchase Recipe</button>
             <button class="button-outline" data-like="${recipe.id}">Like Recipe</button>
-            <button class="button-ghost" data-favorite="${recipe.id}">Save Favorite</button>
+            <button class="button-ghost" data-favorite="${recipe.id}">${isSaved ? "Remove Favorite" : "Save Favorite"}</button>
             <button class="button-danger" data-report-open="${recipe.id}">Report Recipe</button>
           </div>
         </div>
