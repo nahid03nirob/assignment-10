@@ -1,0 +1,63 @@
+:root {
+  --bg: #f8f4ef;
+  --surface: #fffdfb;
+  --surface-alt: #f3ebe3;
+  --nav-bg: rgba(255, 253, 251, 0.82);
+  --primary: #1c5a46;
+  --accent: #d7773d;
+  --heading: #1b1b1a;
+  --text: #3d3d3a;
+  --muted: #f0e3d7;
+  --muted-text: #726b66;
+  --border: rgba(24, 29, 25, 0.1);
+  --shadow: 0 20px 50px rgba(23, 24, 20, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --bg: #121715;
+  --surface: #1a221f;
+  --surface-alt: #0f1714;
+  --nav-bg: rgba(18, 23, 21, 0.82);
+  --primary: #7ec2a8;
+  --accent: #f5a76a;
+  --heading: #f6f3ef;
+  --text: #dfe4e1;
+  --muted: #1f2b27;
+  --muted-text: #bfd0cb;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 20px 50px rgba(5, 8, 7, 0.4);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+h1, h2, h3, h4, p {
+  margin-top: 0;
+}
+
+h1, h2, h3, h4 {
+  color: var(--heading);
+}
